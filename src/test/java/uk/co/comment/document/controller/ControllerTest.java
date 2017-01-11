@@ -1,4 +1,4 @@
-package uk.co.comment.relational.controller;
+package uk.co.comment.document.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.Assert;
@@ -16,9 +16,9 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
-import uk.co.comment.relational.Application;
-import uk.co.comment.relational.rest.CommentDTO;
-import uk.co.comment.relational.rest.CommentsDTO;
+import uk.co.comment.document.Application;
+import uk.co.comment.document.rest.CommentDTO;
+import uk.co.comment.document.rest.CommentsDTO;
 
 @AutoConfigureMockMvc
 @ActiveProfiles("test")

@@ -1,16 +1,12 @@
-package uk.co.comment.relational.domain;
+package uk.co.comment.document.domain;
 
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.MappedSuperclass;
+import org.springframework.data.annotation.Id;
+
 import java.util.Objects;
 
-@MappedSuperclass
 public class DatabaseEntity {
-    
+
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     
     public Long getId() {

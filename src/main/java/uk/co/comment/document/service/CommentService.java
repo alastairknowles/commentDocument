@@ -1,14 +1,14 @@
-package uk.co.comment.relational.service;
+package uk.co.comment.document.service;
 
 import org.joda.time.DateTime;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import uk.co.comment.relational.domain.Comment;
-import uk.co.comment.relational.domain.CommentLike;
-import uk.co.comment.relational.repository.CommentLikeRepository;
-import uk.co.comment.relational.repository.CommentRepository;
-import uk.co.comment.relational.rest.CommentDTO;
-import uk.co.comment.relational.rest.CommentsDTO;
+import uk.co.comment.document.domain.Comment;
+import uk.co.comment.document.domain.CommentLike;
+import uk.co.comment.document.domain.IdGenerator;
+import uk.co.comment.document.repository.CommentRepository;
+import uk.co.comment.document.rest.CommentDTO;
+import uk.co.comment.document.rest.CommentsDTO;
 
 @Service
 @Transactional
@@ -16,11 +16,8 @@ public class CommentService {
     
     private CommentRepository commentRepository;
     
-    private CommentLikeRepository commentLikeRepository;
-    
-    public CommentService(CommentRepository commentRepository, CommentLikeRepository commentLikeRepository) {
+    public CommentService(CommentRepository commentRepository) {
         this.commentRepository = commentRepository;
-        this.commentLikeRepository = commentLikeRepository;
     }
     
     public Comment getComment(Long id) {
@@ -37,15 +34,15 @@ public class CommentService {
     }
     
     public CommentsDTO getComments() {
-        return new CommentsDTO(commentRepository.findAllWithLikeCountsOrderByIdDesc());
+        return null;
     }
     
-    public Long likeComment(Long id) {
+    public synchronized Long likeComment(Long id) {
         Comment comment = getComment(id);
         CommentLike like = new CommentLike();
-        like.setComment(comment);
-        like = commentLikeRepository.save(like);
-        comment.getLikes().add(like);
+        like.setId(IdGenerator.instantiate().get(CommentLike.class));
+        comment.getLikes().add(like.getId());
+        commentRepository.save(comment);
         return like.getId();
     }
     

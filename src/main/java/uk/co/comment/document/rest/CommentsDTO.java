@@ -1,4 +1,4 @@
-package uk.co.comment.relational.rest;
+package uk.co.comment.document.rest;
 
 import java.util.ArrayList;
 import java.util.Collection;

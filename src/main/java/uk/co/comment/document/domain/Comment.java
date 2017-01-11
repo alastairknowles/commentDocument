@@ -1,27 +1,21 @@
-package uk.co.comment.relational.domain;
+package uk.co.comment.document.domain;
 
 import org.assertj.core.util.Sets;
 import org.joda.time.DateTime;
+import org.springframework.data.mongodb.core.mapping.Document;
 
-import javax.persistence.*;
 import java.util.Set;
 
-@Entity
-@Table(name = "comment")
+@Document
 public class Comment extends DatabaseEntity {
     
-    @Lob
-    @Column(name = "comment", nullable = false)
     private String comment;
     
-    @Column(name = "name", nullable = false)
     private String name;
     
-    @Column(name = "posted", nullable = false)
     private DateTime posted;
     
-    @OneToMany(mappedBy = "comment")
-    private Set<CommentLike> likes = Sets.newHashSet();
+    private Set<Long> likes = Sets.newHashSet();
     
     public String getComment() {
         return comment;
@@ -47,11 +41,11 @@ public class Comment extends DatabaseEntity {
         this.posted = posted;
     }
     
-    public Set<CommentLike> getLikes() {
+    public Set<Long> getLikes() {
         return likes;
     }
     
-    public void setLikes(Set<CommentLike> likes) {
+    public void setLikes(Set<Long> likes) {
         this.likes = likes;
     }
     

@@ -1,4 +1,4 @@
-package uk.co.comment.relational.service;
+package uk.co.comment.document.service;
 
 import org.joda.time.DateTime;
 import org.junit.Assert;
@@ -10,9 +10,9 @@ import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.transaction.annotation.Transactional;
-import uk.co.comment.relational.Application;
-import uk.co.comment.relational.domain.Comment;
-import uk.co.comment.relational.rest.CommentDTO;
+import uk.co.comment.document.Application;
+import uk.co.comment.document.domain.Comment;
+import uk.co.comment.document.rest.CommentDTO;
 
 @ActiveProfiles("test")
 @RunWith(SpringRunner.class)

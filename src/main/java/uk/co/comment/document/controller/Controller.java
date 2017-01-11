@@ -1,10 +1,10 @@
-package uk.co.comment.relational.controller;
+package uk.co.comment.document.controller;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
-import uk.co.comment.relational.rest.CommentDTO;
-import uk.co.comment.relational.rest.CommentsDTO;
-import uk.co.comment.relational.service.CommentService;
+import uk.co.comment.document.rest.CommentDTO;
+import uk.co.comment.document.rest.CommentsDTO;
+import uk.co.comment.document.service.CommentService;
 
 import javax.validation.Valid;
 
