@@ -4,7 +4,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.joda.JodaModule;
 import com.mongodb.Mongo;
 import com.mongodb.MongoClient;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.joda.time.DateTimeZone;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
@@ -37,8 +37,12 @@ public class Application {
     @EnableMongoRepositories
     public static class ConfigurationCommon {
         
-        @Autowired
         private Environment environment;
+        
+        public ConfigurationCommon(Environment environment) {
+            this.environment = environment;
+            DateTimeZone.setDefault(DateTimeZone.UTC);
+        }
         
         @Bean
         public Mongo mongo() {
