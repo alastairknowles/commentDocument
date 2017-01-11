@@ -19,6 +19,9 @@ import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 import uk.co.comment.document.Application;
 import uk.co.comment.document.rest.CommentDTO;
 import uk.co.comment.document.rest.CommentsDTO;
+import uk.co.comment.document.rest.EntityDTO;
+
+import java.math.BigInteger;
 
 @AutoConfigureMockMvc
 @ActiveProfiles("test")
@@ -49,7 +52,7 @@ public class ControllerTest {
             CommentDTO commentDTO = new CommentDTO();
             commentDTO.setComment(comment);
             commentDTO.setName("Alastair Knowles");
-            Long id = verifyCreateComment(commentDTO, HttpStatus.CREATED);
+            BigInteger id = verifyCreateComment(commentDTO, HttpStatus.CREATED);
             
             likes++;
             for (int i = 0; i < likes; i++) {
@@ -93,11 +96,11 @@ public class ControllerTest {
         CommentDTO commentDTO = new CommentDTO();
         commentDTO.setComment("My fourth comment");
         commentDTO.setName("Diane Lillis");
-        Long id = verifyCreateComment(commentDTO, HttpStatus.CREATED);
+        BigInteger id = verifyCreateComment(commentDTO, HttpStatus.CREATED);
         verifyLikeComment(id);
     }
     
-    private Long verifyCreateComment(CommentDTO commentDTO, HttpStatus expectedStatus) throws Exception {
+    private BigInteger verifyCreateComment(CommentDTO commentDTO, HttpStatus expectedStatus) throws Exception {
         ResultActions resultActions = mockMvc.perform(MockMvcRequestBuilders.post("/api/comments")
                 .contentType(MediaType.APPLICATION_JSON_UTF8)
                 .content(objectMapper.writeValueAsString(commentDTO)));
@@ -109,14 +112,14 @@ public class ControllerTest {
             return null;
         }
         
-        return objectMapper.readValue(resultActions.andReturn().getResponse().getContentAsString(), Long.class);
+        return objectMapper.readValue(resultActions.andReturn().getResponse().getContentAsString(), EntityDTO.class).getId();
     }
     
-    private Long verifyLikeComment(Long id) throws Exception {
+    private BigInteger verifyLikeComment(BigInteger id) throws Exception {
         return objectMapper.readValue(mockMvc.perform(MockMvcRequestBuilders.post("/api/comments/" + id + "/like")
                 .contentType(MediaType.APPLICATION_JSON_UTF8))
                 .andExpect(MockMvcResultMatchers.status().isCreated())
-                .andReturn().getResponse().getContentAsString(), Long.class);
+                .andReturn().getResponse().getContentAsString(), EntityDTO.class).getId();
     }
     
 }

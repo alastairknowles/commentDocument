@@ -4,18 +4,22 @@ import org.assertj.core.util.Sets;
 import org.joda.time.DateTime;
 import org.springframework.data.mongodb.core.mapping.Document;
 
+import javax.validation.constraints.NotNull;
 import java.util.Set;
 
 @Document(collection = "comments")
 public class Comment extends DatabaseEntity {
     
+    @NotNull
     private String comment;
     
+    @NotNull
     private String name;
     
+    @NotNull
     private DateTime posted;
     
-    private Set<Long> likes = Sets.newHashSet();
+    private Set<CommentLike> likes = Sets.newHashSet();
     
     public String getComment() {
         return comment;
@@ -41,11 +45,11 @@ public class Comment extends DatabaseEntity {
         this.posted = posted;
     }
     
-    public Set<Long> getLikes() {
+    public Set<CommentLike> getLikes() {
         return likes;
     }
     
-    public void setLikes(Set<Long> likes) {
+    public void setLikes(Set<CommentLike> likes) {
         this.likes = likes;
     }
     

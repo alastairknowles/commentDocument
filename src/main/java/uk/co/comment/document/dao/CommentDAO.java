@@ -1,10 +1,11 @@
 package uk.co.comment.document.dao;
 
+import org.springframework.data.domain.Sort;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.aggregation.Aggregation;
 import org.springframework.stereotype.Repository;
+import uk.co.comment.document.domain.Comment;
 import uk.co.comment.document.rest.CommentDTO;
-import uk.co.comment.document.rest.CommentsDTO;
 
 import java.util.List;
 
@@ -18,9 +19,10 @@ public class CommentDAO {
     }
     
     public List<CommentDTO> findAllWithLikeCountsOrderByIdDesc() {
-        Aggregation aggregation = Aggregation.newAggregation(Aggregation.project(""));
-        
-        return null;
+        return mongoTemplate.aggregate(Aggregation.newAggregation(
+                Aggregation.project("id", "comment", "name", "posted").and("likes").project("size").as("likes"),
+                Aggregation.sort(Sort.Direction.DESC, "id")), Comment.class, CommentDTO.class)
+                .getMappedResults();
     }
     
 }

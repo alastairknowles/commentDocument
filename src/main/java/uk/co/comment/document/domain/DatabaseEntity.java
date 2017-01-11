@@ -1,19 +1,17 @@
 package uk.co.comment.document.domain;
 
-import org.springframework.data.annotation.Id;
-
+import java.math.BigInteger;
 import java.util.Objects;
 
 public class DatabaseEntity {
-
-    @Id
-    private Long id;
     
-    public Long getId() {
+    private BigInteger id;
+    
+    public BigInteger getId() {
         return id;
     }
     
-    public void setId(Long id) {
+    public void setId(BigInteger id) {
         this.id = id;
     }
     

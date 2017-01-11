@@ -4,9 +4,7 @@ import org.joda.time.DateTime;
 
 import javax.validation.constraints.NotNull;
 
-public class CommentDTO {
-    
-    private Long id;
+public class CommentDTO extends EntityDTO {
     
     @NotNull
     private String comment;
@@ -17,25 +15,6 @@ public class CommentDTO {
     private DateTime posted;
     
     public Long likes;
-    
-    public CommentDTO() {
-    }
-    
-    public CommentDTO(Long id, String comment, String name, DateTime posted, Long likes) {
-        this.id = id;
-        this.comment = comment;
-        this.name = name;
-        this.posted = posted;
-        this.likes = likes;
-    }
-    
-    public Long getId() {
-        return id;
-    }
-    
-    public void setId(Long id) {
-        this.id = id;
-    }
     
     public String getComment() {
         return comment;
@@ -67,31 +46,6 @@ public class CommentDTO {
     
     public void setLikes(Long likes) {
         this.likes = likes;
-    }
-    
-    public CommentDTO id(Long id) {
-        this.id = id;
-        return this;
-    }
-    
-    public CommentDTO comment(String comment) {
-        this.comment = comment;
-        return this;
-    }
-    
-    public CommentDTO name(String name) {
-        this.name = name;
-        return this;
-    }
-    
-    public CommentDTO posted(DateTime posted) {
-        this.posted = posted;
-        return this;
-    }
-    
-    public CommentDTO likes(Long likes) {
-        this.likes = likes;
-        return this;
     }
     
 }

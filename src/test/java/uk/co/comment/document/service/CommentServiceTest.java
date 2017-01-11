@@ -6,13 +6,14 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit4.SpringRunner;
-import org.springframework.transaction.annotation.Transactional;
 import uk.co.comment.document.Application;
 import uk.co.comment.document.domain.Comment;
 import uk.co.comment.document.rest.CommentDTO;
+
+import javax.validation.ConstraintViolationException;
+import java.math.BigInteger;
 
 @ActiveProfiles("test")
 @RunWith(SpringRunner.class)
@@ -29,7 +30,7 @@ public class CommentServiceTest {
         commentDTO.setName("Alastair Knowles");
         
         DateTime baseline = DateTime.now().withMillisOfSecond(0);
-        Long commentId = commentService.createComment(commentDTO);
+        BigInteger commentId = commentService.createComment(commentDTO).getId();
         
         Comment comment = commentService.getComment(commentId);
         Assert.assertEquals(commentDTO.getComment(), comment.getComment());
@@ -39,14 +40,14 @@ public class CommentServiceTest {
         Assert.assertTrue(posted.equals(baseline) || posted.isAfter(baseline));
     }
     
-    @Test(expected = DataIntegrityViolationException.class)
+    @Test(expected = ConstraintViolationException.class)
     public void shouldNotPersistCommentWithMissingComment() {
         CommentDTO commentDTO = new CommentDTO();
         commentDTO.setName("Diane Lillis");
         commentService.createComment(commentDTO);
     }
     
-    @Test(expected = DataIntegrityViolationException.class)
+    @Test(expected = ConstraintViolationException.class)
     public void shouldNotPersistCommentWithMissingName() {
         CommentDTO commentDTO = new CommentDTO();
         commentDTO.setComment("My second comment");
@@ -54,12 +55,11 @@ public class CommentServiceTest {
     }
     
     @Test
-    @Transactional
     public void shouldLikeComment() {
         CommentDTO commentDTO = new CommentDTO();
         commentDTO.setComment("My second comment");
         commentDTO.setName("Alastair Knowles");
-        Long id = commentService.createComment(commentDTO);
+        BigInteger id = commentService.createComment(commentDTO).getId();
         
         commentService.likeComment(id);
         Comment comment = commentService.getComment(id);
